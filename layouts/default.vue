@@ -17,6 +17,6 @@ html {
   box-sizing: border-box;
 }
 body {
-  @apply bg-gray-200;
+  @apply bg-gray-50;
 }
 </style>

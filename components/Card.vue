@@ -1,10 +1,10 @@
 <template>
   <div class="min-w-0 bg-white rounded-lg shadow-xs dark:bg-gray-800 shadow-lg">
-    <h4 class="p-5 font-medium text-gray-600 dark:text-gray-300">
+    <h4 class="p-5 app-font-bold text-gray-600 dark:text-gray-300">
       {{ title }}
     </h4>
     <hr class="w:100" />
-    <div class="overflow-y-auto text-gray-600 p-4 dark:text-gray-400">
+    <div class="text-gray-600 dark:text-gray-400">
       <slot />
     </div>
   </div>

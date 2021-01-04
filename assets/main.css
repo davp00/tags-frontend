@@ -1,0 +1,39 @@
+@font-face {
+  font-family: 'Aromatica';
+  font-style: normal;
+  font-weight: 200;
+  src: url('~assets/fonts/Aromatica/Aromatica-ExtraLight.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Aromatica';
+  font-style: normal;
+  src: url('~assets/fonts/Aromatica/Aromatica-regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Aromatica';
+  font-style: normal;
+  font-weight: bold;
+  src: url('~assets/fonts/Aromatica/Aromatica-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Aromatica';
+  font-style: normal;
+  font-weight: 600;
+  src: url('~assets/fonts/Aromatica/Aromatica-SemiBold.ttf') format('truetype');
+}
+
+.app-font {
+  font-family: 'Aromatica', serif;
+}
+.app-font-bold {
+  font-family: 'Aromatica', serif;
+  font-weight: bold;
+}
+
+.app-font-semibold {
+  font-family: 'Aromatica', serif;
+  font-weight: 600;
+}

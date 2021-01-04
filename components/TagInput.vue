@@ -1,9 +1,9 @@
 <template>
-  <form @submit="handleSubmit">
+  <form class="p-2" @submit.prevent="handleSubmit">
     <input
       v-model="tagName"
       placeholder="Añadir etiqueta"
-      class="w-full text-xl focus:ring-2 focus:ring-blue-600"
+      class="w-full tagInput text-xl py-2 px-3 bg-white rounded-lg placeholder-gray-400 text-gray-900 focus:outline-none"
     />
   </form>
 </template>
@@ -19,12 +19,15 @@ export default Vue.extend({
     }
   },
   methods: {
-    handleSubmit(e: any) {
-      e.preventDefault()
+    handleSubmit() {
       this.tagName = ''
     },
   },
 })
 </script>
 
-<style></style>
+<style>
+.tagInput {
+  caret-color: rgb(78, 91, 201);
+}
+</style>
