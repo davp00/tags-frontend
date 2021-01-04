@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from 'vue';
 
 export default Vue.extend({
   props: {
@@ -62,20 +62,20 @@ export default Vue.extend({
   },
   data() {
     return {
-      showModal: true,
-    }
+      showModal: false,
+    };
   },
   watch: {
     showModal(newV) {
-      console.log(newV)
+      console.log(newV);
     },
   },
   methods: {
     toggleModal() {
-      this.showModal = !this.showModal
+      this.showModal = !this.showModal;
     },
   },
-})
+});
 </script>
 
 <style scoped>

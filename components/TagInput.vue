@@ -9,21 +9,21 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from 'vue';
 
 export default Vue.extend({
   name: 'TagInput',
   data() {
     return {
       tagName: '' as string,
-    }
+    };
   },
   methods: {
     handleSubmit() {
-      this.tagName = ''
+      this.tagName = '';
     },
   },
-})
+});
 </script>
 
 <style>

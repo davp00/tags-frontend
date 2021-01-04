@@ -12,10 +12,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Card from '~/components/Card.vue'
-import TagInput from '~/components/TagInput.vue'
-import TagList from '~/components/TagList.vue'
+import Vue from 'vue';
+import Card from '~/components/Card.vue';
+import TagInput from '~/components/TagInput.vue';
+import TagList from '~/components/TagList.vue';
 
 export default Vue.extend({
   components: {
@@ -23,5 +23,5 @@ export default Vue.extend({
     TagInput,
     TagList,
   },
-})
+});
 </script>

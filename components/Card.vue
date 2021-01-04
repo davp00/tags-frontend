@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropOptions } from 'vue'
+import Vue, { PropOptions } from 'vue';
 
 export default Vue.extend({
   props: {
@@ -20,5 +20,5 @@ export default Vue.extend({
       type: String,
     } as PropOptions<string>,
   },
-})
+});
 </script>

@@ -1,4 +1,9 @@
 export default {
+  // Server configuration
+  server: {
+    port: 8000,
+  },
+
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     title: 'Tags',
@@ -11,10 +16,17 @@ export default {
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
-  css: ['@/assets/main.css', '@/assets/scrollbar.css'],
+  css: [
+    '@/assets/main.css',
+    '@/assets/scrollbar.css',
+    '@/assets/virtual-scroll.css',
+  ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: [],
+  plugins: [
+    { src: '~/plugins/infiniteloading', ssr: false },
+    { src: '~/plugins/virtualscroller', ssr: false },
+  ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
@@ -28,8 +40,17 @@ export default {
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
-  modules: [],
+  modules: ['@nuxtjs/apollo'],
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},
-}
+
+  // Apollo configuration
+  apollo: {
+    clientConfigs: {
+      default: {
+        httpEndpoint: process.env.GRAPHQL_ENDPOINT,
+      },
+    },
+  },
+};

@@ -29,14 +29,8 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropOptions } from 'vue'
-
-export interface Tag {
-  id: string
-  pid: number
-  name: string
-  color: string
-}
+import Vue, { PropOptions } from 'vue';
+import { Tag } from '~/interfaces/tag';
 
 export default Vue.extend({
   props: {
@@ -50,9 +44,9 @@ export default Vue.extend({
       style: {
         '--tagcolor': this.tag.color,
       },
-    }
+    };
   },
-})
+});
 </script>
 <style>
 :root {
