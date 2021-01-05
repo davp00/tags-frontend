@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full pt-2 pb-4 pl-4 hover:bg-gray-50 tag-item" :style="style">
+  <div class="w-full pt-2 pb-4 pl-4 hover:bg-gray-50">
     <span
       class="font-extrabold text-center text-2xl mr-2"
       :style="{ color: tag.color }"
@@ -14,6 +14,7 @@
         class="background-transparent text-gray-400 font-bold px-3 py-1 text-sm outline-none focus:outline-none mr-1 mb-1 float-right"
         type="button"
         style="transition: all 0.15s ease"
+        @click="deleteTag()"
       >
         Borrar
       </button>
@@ -31,6 +32,7 @@
 <script lang="ts">
 import Vue, { PropOptions } from 'vue';
 import { Tag } from '~/interfaces/tag';
+import { ActionTypes } from '~/store';
 
 export default Vue.extend({
   props: {
@@ -39,12 +41,10 @@ export default Vue.extend({
       type: Object,
     } as PropOptions<Tag>,
   },
-  data() {
-    return {
-      style: {
-        '--tagcolor': this.tag.color,
-      },
-    };
+  methods: {
+    deleteTag() {
+      this.$store.dispatch(ActionTypes.DELETE_TAG, this.tag.id);
+    },
   },
 });
 </script>

@@ -10,6 +10,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { ActionTypes } from '~/store';
 
 export default Vue.extend({
   name: 'TagInput',
@@ -20,7 +21,10 @@ export default Vue.extend({
   },
   methods: {
     handleSubmit() {
-      this.tagName = '';
+      if (this.tagName) {
+        this.$store.dispatch(ActionTypes.CREATE_TAG, this.tagName);
+        this.tagName = '';
+      }
     },
   },
 });

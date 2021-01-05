@@ -1,3 +1,5 @@
+import { Tag } from '~/interfaces/tag';
+
 export interface SearchableComparable<T> {
   isEqualTo(value: T): boolean;
   isLessThan(value: T): boolean;
@@ -22,3 +24,19 @@ export function binarySearch<T>(
 
   return null;
 }
+
+export const tagBinarySearchComparable = (
+  toFind: Tag
+): SearchableComparable<Tag> => {
+  return {
+    isEqualTo(value: Tag): boolean {
+      return toFind.pid === value.pid;
+    },
+    isGreaterThan(value: Tag): boolean {
+      return toFind.pid > value.pid;
+    },
+    isLessThan(value: Tag): boolean {
+      return toFind.pid < value.pid;
+    },
+  };
+};

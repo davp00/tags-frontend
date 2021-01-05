@@ -50,6 +50,7 @@ export default {
     clientConfigs: {
       default: {
         httpEndpoint: process.env.GRAPHQL_ENDPOINT,
+        wsEndpoint: process.env.GRAPHQL_WS_ENDPOINT,
       },
     },
   },

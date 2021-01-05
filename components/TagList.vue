@@ -12,25 +12,16 @@
         :item-size="50"
       >
         <template v-slot="{ item }">
-          <TagItem :tag="item" />
-        </template>
-      </RecycleScroller>
-      <!--<DynamicScroller
-        :items="tags"
-        :item-size="50"
-        class="scroller"
-        min-item-size="5"
-      >
-        <template v-slot="{ item, index, active }">
-          <DynamicScrollerItem
-            :item="item"
-            :active="active"
-            :data-index="index"
+          <div
+            class="tag-item"
+            :style="{
+              '--tagcolor': item.color,
+            }"
           >
             <TagItem :tag="item" />
-          </DynamicScrollerItem>
+          </div>
         </template>
-      </DynamicScroller>-->
+      </RecycleScroller>
 
       <InfiniteLoading
         spinner="spiral"
@@ -68,23 +59,25 @@ export default Vue.extend({
     };
   },
   computed: {
-    ...mapState(['tags']),
+    ...mapState(['tags', 'totalTags']),
   },
   mounted() {
     this.$store.dispatch(ActionTypes.GET_TAG_LIST);
+
+    this.$store.dispatch(ActionTypes.WATCH_TAG_EVENTS);
   },
   methods: {
     infiniteScroll($state: any) {
       setTimeout(() => {
         if (!this.loading) {
           this.loading = true;
+
           this.$store
             .dispatch(ActionTypes.GET_TAG_LIST)
             .then((loaded: boolean) => {
               if (loaded) {
                 $state.loaded();
                 this.loading = false;
-                console.log('PASA POR ACA');
               } else {
                 $state.complete();
               }
