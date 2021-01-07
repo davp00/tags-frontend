@@ -32,9 +32,10 @@
               Cerrar
             </button>
             <button
-              class="modal-submit-button active:bg-green-600 hover:shadow-lg focus:outline-none"
+              :disabled="isLoading"
+              class="modal-submit-button disabled:opacity-50 active:bg-green-600 hover:shadow-lg focus:outline-none"
               type="button"
-              @click="toggleModal()"
+              @click="$emit('submit')"
             >
               Editar
             </button>
@@ -59,20 +60,29 @@ export default Vue.extend({
       required: true,
       type: String,
     },
+    loading: {
+      required: false,
+      default: false,
+      type: Boolean,
+    },
   },
   data() {
     return {
-      showModal: false,
+      showModal: this.show,
+      isLoading: false,
     };
   },
   watch: {
-    showModal(newV) {
-      console.log(newV);
+    show(newV) {
+      this.showModal = newV;
+    },
+    loading(newV) {
+      this.isLoading = newV;
     },
   },
   methods: {
     toggleModal() {
-      this.showModal = !this.showModal;
+      this.$emit('togglemodal');
     },
   },
 });

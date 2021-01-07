@@ -11,3 +11,9 @@ export const DELETE_TAG_MUTATION = gql`
     deleteTag(id: $id)
   }
 `;
+
+export const EDIT_TAG_MUTATION = gql`
+  mutation EditTag($id: String!, $name: String!) {
+    editTag(id: $id, name: $name)
+  }
+`;

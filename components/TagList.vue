@@ -28,16 +28,7 @@
         @infinite="infiniteScroll"
       ></InfiniteLoading>
     </div>
-    <Modal :show="false" title="Editar Etiqueta">
-      <div class="my-4 leading-relaxed">
-        <label class="font-semibold p-2">Nuevo Nombre</label>
-        <input
-          placeholder="Nombre"
-          class="edit-tag-input app-font-semibold focus:outline-none focus:ring-2 focus:ring-gray-200"
-          type="text"
-        />
-      </div>
-    </Modal>
+    <ModalEdit />
   </div>
 </template>
 
@@ -45,13 +36,15 @@
 import Vue from 'vue';
 import { mapState } from 'vuex';
 import TagItem from '~/components/TagItem.vue';
-import Modal from '~/components/Modal.vue';
-import { ActionTypes } from '~/store';
+import { ActionTypes } from '~/definitions/index.store';
+import { UPDATE_TAG_LIST_SUBSCRIPTION } from '~/gql/subscriptions';
+import { TAG_LIST_QUERY } from '~/gql/querys';
+import ModalEdit from '~/components/ModalEdit.vue';
 
 export default Vue.extend({
   components: {
     TagItem,
-    Modal,
+    ModalEdit,
   },
   data() {
     return {
@@ -59,31 +52,87 @@ export default Vue.extend({
     };
   },
   computed: {
-    ...mapState(['tags', 'totalTags']),
+    ...mapState(['tags']),
   },
   mounted() {
-    this.$store.dispatch(ActionTypes.GET_TAG_LIST);
+    this.getTagList();
+    this.watchTagEvents();
+    // console.log('PASA POR ACA');
 
-    this.$store.dispatch(ActionTypes.WATCH_TAG_EVENTS);
+    /* const observer = $apolloProvider.defaultClient.subscribe({
+      query: UPDATE_TAG_LIST_SUBSCRIPTION,
+    });
+
+    const $store = this.$store;
+
+    observer.subscribe({
+      next({ data }: any) {
+        if (data.updateTagList) {
+          const { action } = data.updateTagList;
+          $store.dispatch(ActionTypes.WATCH_TAG_EVENTS, data.updateTagList);
+          console.log(action);
+        }
+      },
+      error() {
+        alert('Ha ocurrido un error en el socket');
+      },
+    }); */
+    // this.$store.dispatch(ActionTypes.WATCH_TAG_EVENTS);
   },
   methods: {
-    infiniteScroll($state: any) {
-      setTimeout(() => {
-        if (!this.loading) {
-          this.loading = true;
+    async getTagList() {
+      const { $apolloProvider } = this as any;
+      const result = await $apolloProvider.defaultClient.query({
+        query: TAG_LIST_QUERY,
+        variables: {
+          pagination: {
+            limit: 10000,
+            page: this.$store.state.page,
+          },
+        },
+      });
+      await this.$store.dispatch(
+        ActionTypes.GET_TAG_LIST,
+        result.data.tagList.tags
+      );
+      return result.data.tagList.tags.length !== 0;
+    },
+    watchTagEvents() {
+      const { $apolloProvider } = this as any;
+      const observer = $apolloProvider.defaultClient.subscribe({
+        query: UPDATE_TAG_LIST_SUBSCRIPTION,
+      });
 
-          this.$store
-            .dispatch(ActionTypes.GET_TAG_LIST)
-            .then((loaded: boolean) => {
-              if (loaded) {
-                $state.loaded();
-                this.loading = false;
-              } else {
-                $state.complete();
-              }
-            });
-        }
-      }, 500);
+      const $store = this.$store;
+
+      observer.subscribe({
+        next({ data }: any) {
+          if (data.updateTagList) {
+            const { action } = data.updateTagList;
+            $store.dispatch(ActionTypes.WATCH_TAG_EVENTS, data.updateTagList);
+            console.log(action);
+          }
+        },
+        error() {
+          alert('Ha ocurrido un error en el socket');
+        },
+      });
+    },
+    infiniteScroll($state: any) {
+      if (!this.loading) {
+        this.loading = true;
+
+        this.getTagList().then((loaded: boolean) => {
+          setTimeout(() => {
+            if (loaded) {
+              $state.loaded();
+              this.loading = false;
+            } else {
+              $state.complete();
+            }
+          }, 100);
+        });
+      }
     },
   },
 });
@@ -92,8 +141,5 @@ export default Vue.extend({
 <style scoped>
 .vue-recycle-scroller__item-view .hover {
   background: none;
-}
-.edit-tag-input {
-  @apply mt-4 py-3 px-4 bg-white rounded-lg placeholder-gray-400 text-gray-900 appearance-none inline-block w-full shadow-md;
 }
 </style>

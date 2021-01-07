@@ -10,7 +10,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { ActionTypes } from '~/store';
+import { ActionTypes } from '~/definitions/index.store';
+import { CREATE_TAG_MUTATION } from '~/gql/mutations';
 
 export default Vue.extend({
   name: 'TagInput',
@@ -22,9 +23,20 @@ export default Vue.extend({
   methods: {
     handleSubmit() {
       if (this.tagName) {
-        this.$store.dispatch(ActionTypes.CREATE_TAG, this.tagName);
+        this.createTag(this.tagName);
         this.tagName = '';
       }
+    },
+    async createTag(name: string) {
+      const { $apolloProvider } = this as any;
+      const result = await $apolloProvider.defaultClient.mutate({
+        mutation: CREATE_TAG_MUTATION,
+        variables: {
+          name,
+        },
+      });
+
+      return result.data.createTag;
     },
   },
 });

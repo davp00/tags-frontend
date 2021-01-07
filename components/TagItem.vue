@@ -9,7 +9,7 @@
     <span class="app-font-bold text-base tracking-tight text-capitalize">
       {{ tag.name }}
     </span>
-    <span>
+    <span v-if="!isRemoving && tag.pid">
       <button
         class="background-transparent text-gray-400 font-bold px-3 py-1 text-sm outline-none focus:outline-none mr-1 mb-1 float-right"
         type="button"
@@ -22,6 +22,7 @@
         class="background-transparent text-gray-400 font-bold px-3 py-1 text-sm outline-none focus:outline-none mr-1 mb-1 float-right"
         type="button"
         style="transition: all 0.15s ease"
+        @click="editTag()"
       >
         Editar
       </button>
@@ -31,8 +32,9 @@
 
 <script lang="ts">
 import Vue, { PropOptions } from 'vue';
-import { Tag } from '~/interfaces/tag';
-import { ActionTypes } from '~/store';
+import { Tag } from '~/definitions/tag';
+import { DELETE_TAG_MUTATION } from '~/gql/mutations';
+import { ActionTypes } from '~/definitions/index.store';
 
 export default Vue.extend({
   props: {
@@ -41,9 +43,29 @@ export default Vue.extend({
       type: Object,
     } as PropOptions<Tag>,
   },
+  data() {
+    return {
+      isRemoving: null as boolean | null,
+    };
+  },
   methods: {
-    deleteTag() {
-      this.$store.dispatch(ActionTypes.DELETE_TAG, this.tag.id);
+    editTag() {
+      this.$store.dispatch(ActionTypes.TOGGLE_MODAL, this.tag);
+    },
+    async deleteTag() {
+      if (!this.isRemoving) {
+        const { $apolloProvider } = this as any;
+        this.isRemoving = true;
+        const result = await $apolloProvider.defaultClient.mutate({
+          mutation: DELETE_TAG_MUTATION,
+          variables: {
+            id: this.tag.id,
+          },
+        });
+        this.isRemoving = false;
+
+        return result.data.deleteTag;
+      }
     },
   },
 });

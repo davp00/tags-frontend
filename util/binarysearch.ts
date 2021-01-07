@@ -1,4 +1,4 @@
-import { Tag } from '~/interfaces/tag';
+import { Tag } from '~/definitions/tag';
 
 export interface SearchableComparable<T> {
   isEqualTo(value: T): boolean;

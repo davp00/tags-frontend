@@ -43,8 +43,19 @@ export default {
   modules: ['@nuxtjs/apollo'],
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
-  build: {},
+  build: {
+    extend(config, ctx) {
+      if (ctx.isClient) {
+        config.module.rules.push({
+          test: /\.worker\.js$/,
+          loader: 'worker-loader',
+          exclude: /(node_modules)/,
+        });
+      }
+    },
+  },
 
+  ssr: false,
   // Apollo configuration
   apollo: {
     clientConfigs: {
