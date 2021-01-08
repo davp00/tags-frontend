@@ -57,27 +57,6 @@ export default Vue.extend({
   mounted() {
     this.getTagList();
     this.watchTagEvents();
-    // console.log('PASA POR ACA');
-
-    /* const observer = $apolloProvider.defaultClient.subscribe({
-      query: UPDATE_TAG_LIST_SUBSCRIPTION,
-    });
-
-    const $store = this.$store;
-
-    observer.subscribe({
-      next({ data }: any) {
-        if (data.updateTagList) {
-          const { action } = data.updateTagList;
-          $store.dispatch(ActionTypes.WATCH_TAG_EVENTS, data.updateTagList);
-          console.log(action);
-        }
-      },
-      error() {
-        alert('Ha ocurrido un error en el socket');
-      },
-    }); */
-    // this.$store.dispatch(ActionTypes.WATCH_TAG_EVENTS);
   },
   methods: {
     async getTagList() {

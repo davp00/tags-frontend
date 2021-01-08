@@ -10,7 +10,6 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { ActionTypes } from '~/definitions/index.store';
 import { CREATE_TAG_MUTATION } from '~/gql/mutations';
 
 export default Vue.extend({

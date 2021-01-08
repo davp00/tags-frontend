@@ -19,13 +19,11 @@ export function wrap(storeOpts, worker) {
 
   // Handle commits by the worker
   worker.onmessage = function (e) {
-    // console.log('ONMESSAGE', e.data);
     store.commit(e.data.type, e.data.payload);
   };
 
   // Intercept actions and dispatch it to the worker.
   store.subscribeAction((action) => {
-    // console.log('SUSBSCRIBE_ACTION', action);
     worker.postMessage(action);
   });
 
@@ -55,7 +53,6 @@ export function expose(storeOpts) {
   });
 
   self.onmessage = function (e) {
-    // console.log('ON_MESSAGE_SELF', e.data);
     actions[e.data.type](e.data.payload);
   };
 
