@@ -87,9 +87,7 @@ export default Vue.extend({
       observer.subscribe({
         next({ data }: any) {
           if (data.updateTagList) {
-            const { action } = data.updateTagList;
             $store.dispatch(ActionTypes.WATCH_TAG_EVENTS, data.updateTagList);
-            console.log(action);
           }
         },
         error() {
