@@ -65,4 +65,9 @@ export default {
       },
     },
   },
+
+  env: {
+    graphqlHttpEndPoint: process.env.GRAPHQL_ENDPOINT,
+    graphqlWsEndpoint: process.env.GRAPHQL_WS_ENDPOINT,
+  },
 };

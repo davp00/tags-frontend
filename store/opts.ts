@@ -8,6 +8,9 @@ import {
   MutationTypes,
 } from '~/definitions/index.store';
 import { Tag } from '~/definitions/tag';
+import apolloClient from '~/util/apollo.client';
+import { DELETE_TAG_MUTATION } from '~/gql/mutations';
+import { UPDATE_TAG_LIST_SUBSCRIPTION } from '~/gql/subscriptions';
 
 export const state = (): MainState => ({
   tags: [],
@@ -15,6 +18,28 @@ export const state = (): MainState => ({
   modal: false,
   tag: undefined,
 });
+
+const subscriptionList = {
+  onSubscriptionNext({ data }: any, commit: any) {
+    if (data.updateTagList) {
+      const { action, tag } = data.updateTagList;
+      switch (action) {
+        case 'ADD':
+          commit(MutationTypes.ADD_TAG, tag);
+          break;
+        case 'EDIT':
+          commit(MutationTypes.EDIT_TAG, tag);
+          break;
+        case 'DELETE':
+          commit(MutationTypes.DELETE_TAG, tag);
+          break;
+      }
+    }
+  },
+  onSubscriptionError() {
+    alert('Ha ocurrido un error en el socket');
+  },
+};
 
 export const mutations: MutationTree<MainState> & Mutations = {
   [MutationTypes.ADD_TAGS](state, tags) {
@@ -60,21 +85,30 @@ export const actions: ActionTree<MainState, MainState> = {
     commit(MutationTypes.ADD_TAGS, tags);
   },
 
-  [ActionTypes.WATCH_TAG_EVENTS](
-    { commit }: ArgumentedActionContext,
-    { action, tag }: any
-  ) {
-    switch (action) {
-      case 'ADD':
-        commit(MutationTypes.ADD_TAG, tag);
-        break;
-      case 'EDIT':
-        commit(MutationTypes.EDIT_TAG, tag);
-        break;
-      case 'DELETE':
-        commit(MutationTypes.DELETE_TAG, tag);
-        break;
-    }
+  [ActionTypes.WATCH_TAG_EVENTS]({ commit }: ArgumentedActionContext) {
+    const observer = apolloClient.subscribe({
+      query: UPDATE_TAG_LIST_SUBSCRIPTION,
+    });
+
+    observer.subscribe({
+      next: (response) => {
+        subscriptionList.onSubscriptionNext(response, commit);
+      },
+      error: subscriptionList.onSubscriptionError,
+    });
+  },
+
+  [ActionTypes.DELETE_TAG](_: ArgumentedActionContext, tag: Tag) {
+    apolloClient
+      .mutate({
+        mutation: DELETE_TAG_MUTATION,
+        variables: {
+          id: tag.id,
+        },
+      })
+      .then(({ data }) => {
+        return data.deleteTag;
+      });
   },
 
   [ActionTypes.TOGGLE_MODAL]({ commit }: ArgumentedActionContext, tag: Tag) {

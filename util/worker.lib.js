@@ -43,7 +43,8 @@ export function expose(storeOpts) {
   Object.keys(actions).forEach((key) => {
     const executeAction = actions[key];
 
-    actions[key] = function offThreadAction(payload) {
+    // eslint-disable-next-line require-await
+    actions[key] = async function offThreadAction(payload) {
       function commit(mutationKey, value) {
         self.postMessage({ type: mutationKey, payload: value });
       }

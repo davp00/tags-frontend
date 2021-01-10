@@ -56,7 +56,7 @@ export default Vue.extend({
   },
   mounted() {
     this.getTagList();
-    this.watchTagEvents();
+    this.$store.dispatch(ActionTypes.WATCH_TAG_EVENTS);
   },
   methods: {
     async getTagList() {
@@ -76,17 +76,6 @@ export default Vue.extend({
       );
       return result.data.tagList.tags.length !== 0;
     },
-    watchTagEvents() {
-      const { $apolloProvider } = this as any;
-      const observer = $apolloProvider.defaultClient.subscribe({
-        query: UPDATE_TAG_LIST_SUBSCRIPTION,
-      });
-
-      observer.subscribe({
-        next: this.onSubscriptionNext,
-        error: this.onSubscriptionError,
-      });
-    },
     infiniteScroll($state: any) {
       if (!this.loading) {
         this.loading = true;
@@ -104,14 +93,6 @@ export default Vue.extend({
       } else {
         $state.complete();
       }
-    },
-    onSubscriptionNext({ data }: any) {
-      if (data.updateTagList) {
-        this.$store.dispatch(ActionTypes.WATCH_TAG_EVENTS, data.updateTagList);
-      }
-    },
-    onSubscriptionError() {
-      alert('Ha ocurrido un error en el socket');
     },
   },
 });
