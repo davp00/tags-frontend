@@ -33,16 +33,13 @@ describe('TagItem', () => {
     expect($store.dispatch).lastCalledWith(ActionTypes.TOGGLE_MODAL, tag);
   });
 
-  it('should call delete mutation', async function () {
+  it('should call delete action', async function () {
     const deleteButton = wrapper.find('.tag-item-button-delete');
     deleteButton.trigger('click');
 
     await flushPromises();
 
-    expect($apolloProvider.defaultClient.mutate).lastCalledWith({
-      mutation: DELETE_TAG_MUTATION,
-      variables: { id: tag.id },
-    });
+    expect($store.dispatch).lastCalledWith(ActionTypes.DELETE_TAG, tag);
   });
 
   it('should ignore the mutation', function () {

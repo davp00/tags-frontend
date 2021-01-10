@@ -5,8 +5,8 @@ import { Tag } from '~/definitions/tag';
 import { TAG_LIST_QUERY, TAG_LIST_QUERY_LIMIT } from '~/gql/querys';
 import { ActionTypes } from '~/definitions/index.store';
 
-jest.mock('../../util/apollo.client');
-jest.spyOn(global, 'fetch');
+// jest.mock('../../util/apollo.client');
+// jest.spyOn(global, 'fetch');
 
 const tags: Tag[] = [
   { name: 'TEST1', pid: 1, color: '#ffffff', id: 'testId1' },
@@ -26,8 +26,6 @@ const $infiniteScrollState = {
   loaded: jest.fn(),
   complete: jest.fn(),
 };
-
-jest.spyOn(window, 'alert').mockImplementation(() => {});
 
 describe('TagList.vue', () => {
   let wrapper: any;
@@ -53,7 +51,7 @@ describe('TagList.vue', () => {
       variables: { pagination: { page: 1, limit: TAG_LIST_QUERY_LIMIT } },
     });
 
-    expect($store.dispatch).lastCalledWith(ActionTypes.GET_TAG_LIST, tags);
+    expect($store.dispatch).lastCalledWith(ActionTypes.SET_TAG_LIST, tags);
   });
 
   it('should init subscription', function () {
@@ -103,34 +101,4 @@ describe('TagList.vue', () => {
       expect($apolloProvider.defaultClient.query).not.toHaveBeenCalled();
     });
   });
-
-  /* describe('Subscription', () => {
-    it('should update tag list on subscription next', function () {
-      const data = {
-        updateTagList: {},
-      };
-
-      wrapper.vm.onSubscriptionNext({ data });
-
-      expect($store.dispatch).lastCalledWith(
-        ActionTypes.WATCH_TAG_EVENTS,
-        data.updateTagList
-      );
-    });
-
-    it('should skip update tag list on subscription without data', function () {
-      $store.dispatch.mockClear();
-
-      const data = {};
-
-      wrapper.vm.onSubscriptionNext({ data });
-
-      expect($store.dispatch).not.toHaveBeenCalled();
-    });
-
-    it('should run on subscription error method', function () {
-      wrapper.vm.onSubscriptionError();
-      expect(window.alert).toHaveBeenCalled();
-    });
-  }); */
 });

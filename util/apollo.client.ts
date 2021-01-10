@@ -4,13 +4,15 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { WebSocketLink } from 'apollo-link-ws';
 import { split } from 'apollo-link';
 import { getMainDefinition } from 'apollo-utilities';
+import nodeFetch from 'unfetch';
 
 const httpLink = createHttpLink({
   uri: process.env.graphqlHttpEndPoint,
+  fetch: global.fetch || nodeFetch,
 });
 
 const wsLink = new WebSocketLink({
-  uri: process.env.graphqlWsEndpoint || '',
+  uri: process.env.graphqlWsEndpoint || 'ws://localhost:3000/graphql',
   options: {
     reconnect: true,
   },

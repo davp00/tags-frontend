@@ -1,6 +1,7 @@
 import { ActionTree, MutationTree } from 'vuex';
 import { binarySearch, tagBinarySearchComparable } from '~/util/binarysearch';
 import {
+  Actions,
   ActionTypes,
   ArgumentedActionContext,
   MainState,
@@ -19,7 +20,7 @@ export const state = (): MainState => ({
   tag: undefined,
 });
 
-const subscriptionList = {
+export const subscriptionListActions = {
   onSubscriptionNext({ data }: any, commit: any) {
     if (data.updateTagList) {
       const { action, tag } = data.updateTagList;
@@ -46,10 +47,6 @@ export const mutations: MutationTree<MainState> & Mutations = {
     state.tags = state.tags.concat(tags);
   },
 
-  [MutationTypes.UPDATE_PAGE](state, value): void {
-    state.page += value;
-  },
-
   [MutationTypes.ADD_TAG](state, tag) {
     state.tags.unshift(tag);
   },
@@ -62,9 +59,12 @@ export const mutations: MutationTree<MainState> & Mutations = {
 
   [MutationTypes.DELETE_TAG](state, tag) {
     const index = binarySearch(state.tags, tagBinarySearchComparable(tag));
-    if (index !== null) {
-      state.tags.splice(index, 1);
-    }
+
+    if (index !== null) state.tags.splice(index, 1);
+  },
+
+  [MutationTypes.UPDATE_PAGE](state, value): void {
+    state.page += value;
   },
 
   [MutationTypes.TOGGLE_MODAL](state) {
@@ -76,8 +76,8 @@ export const mutations: MutationTree<MainState> & Mutations = {
   },
 };
 
-export const actions: ActionTree<MainState, MainState> = {
-  [ActionTypes.GET_TAG_LIST](
+export const actions: ActionTree<MainState, MainState> & Actions = {
+  [ActionTypes.SET_TAG_LIST](
     { commit }: ArgumentedActionContext,
     tags: Tag[]
   ): void {
@@ -90,11 +90,12 @@ export const actions: ActionTree<MainState, MainState> = {
       query: UPDATE_TAG_LIST_SUBSCRIPTION,
     });
 
+    /* istanbul ignore next */
     observer.subscribe({
       next: (response) => {
-        subscriptionList.onSubscriptionNext(response, commit);
+        subscriptionListActions.onSubscriptionNext(response, commit);
       },
-      error: subscriptionList.onSubscriptionError,
+      error: subscriptionListActions.onSubscriptionError,
     });
   },
 
@@ -106,9 +107,12 @@ export const actions: ActionTree<MainState, MainState> = {
           id: tag.id,
         },
       })
-      .then(({ data }) => {
-        return data.deleteTag;
-      });
+      .then(
+        /* istanbul ignore next */
+        ({ data }) => {
+          return data.deleteTag;
+        }
+      );
   },
 
   [ActionTypes.TOGGLE_MODAL]({ commit }: ArgumentedActionContext, tag: Tag) {

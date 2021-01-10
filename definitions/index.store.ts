@@ -29,12 +29,19 @@ export type Mutations<S = MainState> = {
 };
 
 export enum ActionTypes {
-  GET_TAG_LIST = 'GET_TAG_LIST',
+  SET_TAG_LIST = 'SET_TAG_LIST',
   CREATE_TAG = 'ACTION_CREATE_TAG',
   DELETE_TAG = 'ACTION_DELETE_TAG',
   WATCH_TAG_EVENTS = 'WATCH_TAG_EVENTS',
   TOGGLE_MODAL = 'ACTION_TOGGLE_MODAL',
 }
+
+export type Actions<S = MainState> = {
+  [ActionTypes.SET_TAG_LIST](arg: ArgumentedActionContext, tags: Tag[]): void;
+  [ActionTypes.WATCH_TAG_EVENTS](arg: ArgumentedActionContext): void;
+  [ActionTypes.DELETE_TAG](arg: ArgumentedActionContext, tag: Tag): void;
+  [ActionTypes.TOGGLE_MODAL](arg: ArgumentedActionContext, tag: Tag): void;
+};
 
 export type ArgumentedActionContext = {
   commit<K extends keyof Mutations>(

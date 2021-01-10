@@ -71,7 +71,7 @@ export default Vue.extend({
         },
       });
       await this.$store.dispatch(
-        ActionTypes.GET_TAG_LIST,
+        ActionTypes.SET_TAG_LIST,
         result.data.tagList.tags
       );
       return result.data.tagList.tags.length !== 0;

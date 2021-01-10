@@ -11,7 +11,7 @@
     "lint": "npm run lint:ext",
     "test": "jest",
     "test:cov": "jest --coverage",
-    "test:file": "jest test/unit/ModalEdit.spec.ts --watch --detectOpenHandles"
+    "test:file": "jest test/unit/stores/index.store.spec.ts --watch --detectOpenHandles"
   },
   "dependencies": {
     "@nuxt/typescript-runtime": "^2.0.0",
@@ -26,6 +26,7 @@
     "graphql": "^15.4.0",
     "graphql-tag": "^2.11.0",
     "nuxt": "^2.14.6",
+    "unfetch": "^4.2.0",
     "vue-infinite-loading": "^2.4.5",
     "vue-virtual-scroller": "^1.0.10",
     "vue-worker": "^1.2.1",
