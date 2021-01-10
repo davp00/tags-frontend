@@ -1,6 +1,7 @@
 export default {
   // Server configuration
   server: {
+    host: process.env.HOST || '0.0.0.0',
     port: 8000,
   },
 
@@ -17,9 +18,9 @@ export default {
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
-    '@/assets/main.css',
-    '@/assets/scrollbar.css',
-    '@/assets/virtual-scroll.css',
+    '~/assets/css/main.css',
+    '~/assets/css/scrollbar.css',
+    '~/assets/css/virtual-scroll.css',
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
