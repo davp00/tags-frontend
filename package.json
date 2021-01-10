@@ -40,6 +40,7 @@
     "@nuxtjs/eslint-config-typescript": "^3.0.0",
     "@nuxtjs/eslint-module": "^2.0.0",
     "@nuxtjs/tailwindcss": "^3.1.0",
+    "@tailwindcss/postcss7-compat": "^2.0.2",
     "@types/jest": "^26.0.19",
     "@vue/test-utils": "^1.1.2",
     "autoprefixer": "^9.8.6",
@@ -54,7 +55,7 @@
     "jest": "^26.5.0",
     "postcss": "^7.0.35",
     "prettier": "^2.1.2",
-    "tailwindcss": "^2.0.1-compat",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
     "ts-jest": "^26.4.4",
     "vue-jest": "^3.0.7"
   }
