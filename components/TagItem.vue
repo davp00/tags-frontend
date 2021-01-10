@@ -6,7 +6,10 @@
     >
       •
     </span>
-    <span class="app-font-bold text-base tracking-tight text-capitalize">
+    <span
+      class="app-font-bold inline-block truncate w-48 text-base tracking-tight text-capitalize"
+      :title="tag.name"
+    >
       {{ tag.name }}
     </span>
     <span>
