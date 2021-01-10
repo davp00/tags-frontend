@@ -1,8 +1,21 @@
-import { binarySearch, SearchableComparable } from '~/util/binarysearch';
+import {
+  binarySearch,
+  SearchableComparable,
+  tagBinarySearchComparable,
+} from '~/util/binarysearch';
+import { testTag } from '~/test/mocks';
+import { Tag } from '~/definitions/tag';
 
 describe('binary Search', () => {
-  const items: number[] = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+  const length = 50;
+
+  const items: number[] = Array.from(
+    { length },
+    (_, k) => k + 1
+  ).reverse() as number[];
+
   const itemToFind = 5;
+
   const getComparable: Function = (
     toFind: number
   ): SearchableComparable<number> => {
@@ -24,7 +37,29 @@ describe('binary Search', () => {
     expect(result).toEqual(items.indexOf(itemToFind));
   });
 
-  it('should return null on item 11 not found', function () {
-    expect(binarySearch(items, getComparable(11))).toBeNull();
+  it(`should return null on item ${length + 1} not found`, function () {
+    expect(binarySearch(items, getComparable(length + 1))).toBeNull();
+  });
+
+  describe('tag Binary Search Comparable', () => {
+    it('Compare', function () {
+      const comparable = tagBinarySearchComparable(testTag);
+      const tagToCompare: Tag = {
+        name: 'TEST',
+        id: 'testId',
+        pid: 123,
+        color: '#ffffff',
+      };
+
+      expect(comparable.isEqualTo(tagToCompare)).toBeTruthy();
+
+      tagToCompare.pid = 124;
+
+      expect(comparable.isLessThan(tagToCompare)).toBeTruthy();
+
+      tagToCompare.pid = 122;
+
+      expect(comparable.isGreaterThan(tagToCompare)).toBeTruthy();
+    });
   });
 });

@@ -19,7 +19,7 @@ export function binarySearch<T>(
 
     if (isEqualTo(arr[mid])) return mid;
     else if (isLessThan(arr[mid])) start = mid + 1;
-    else if (isGreaterThan(arr[mid])) end = mid - 1;
+    /* istanbul ignore next */ else if (isGreaterThan(arr[mid])) end = mid - 1;
   }
 
   return null;

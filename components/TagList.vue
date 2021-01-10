@@ -38,7 +38,7 @@ import { mapState } from 'vuex';
 import TagItem from '~/components/TagItem.vue';
 import { ActionTypes } from '~/definitions/index.store';
 import { UPDATE_TAG_LIST_SUBSCRIPTION } from '~/gql/subscriptions';
-import { TAG_LIST_QUERY } from '~/gql/querys';
+import { TAG_LIST_QUERY, TAG_LIST_QUERY_LIMIT } from '~/gql/querys';
 import ModalEdit from '~/components/ModalEdit.vue';
 
 export default Vue.extend({
@@ -65,7 +65,7 @@ export default Vue.extend({
         query: TAG_LIST_QUERY,
         variables: {
           pagination: {
-            limit: 10000,
+            limit: TAG_LIST_QUERY_LIMIT,
             page: this.$store.state.page,
           },
         },
@@ -82,17 +82,9 @@ export default Vue.extend({
         query: UPDATE_TAG_LIST_SUBSCRIPTION,
       });
 
-      const $store = this.$store;
-
       observer.subscribe({
-        next({ data }: any) {
-          if (data.updateTagList) {
-            $store.dispatch(ActionTypes.WATCH_TAG_EVENTS, data.updateTagList);
-          }
-        },
-        error() {
-          alert('Ha ocurrido un error en el socket');
-        },
+        next: this.onSubscriptionNext,
+        error: this.onSubscriptionError,
       });
     },
     infiniteScroll($state: any) {
@@ -100,16 +92,26 @@ export default Vue.extend({
         this.loading = true;
 
         this.getTagList().then((loaded: boolean) => {
-          setTimeout(() => {
-            if (loaded) {
-              $state.loaded();
-              this.loading = false;
-            } else {
-              $state.complete();
-            }
-          }, 100);
+          /* istanbul ignore next */
+          setTimeout(() => this.onNewTagItems($state, loaded), 100);
         });
       }
+    },
+    onNewTagItems($state: any, loaded: boolean) {
+      if (loaded) {
+        $state.loaded();
+        this.loading = false;
+      } else {
+        $state.complete();
+      }
+    },
+    onSubscriptionNext({ data }: any) {
+      if (data.updateTagList) {
+        this.$store.dispatch(ActionTypes.WATCH_TAG_EVENTS, data.updateTagList);
+      }
+    },
+    onSubscriptionError() {
+      alert('Ha ocurrido un error en el socket');
     },
   },
 });

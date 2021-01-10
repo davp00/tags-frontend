@@ -11,15 +11,15 @@
     </span>
     <span v-if="!isRemoving && tag.pid">
       <button
-        class="background-transparent text-gray-400 font-bold px-3 py-1 text-sm outline-none focus:outline-none mr-1 mb-1 float-right"
+        class="tag-item-button-delete background-transparent focus:outline-none"
         type="button"
         style="transition: all 0.15s ease"
-        @click="deleteTag()"
+        @click="deleteTag"
       >
         Borrar
       </button>
       <button
-        class="background-transparent text-gray-400 font-bold px-3 py-1 text-sm outline-none focus:outline-none mr-1 mb-1 float-right"
+        class="tag-item-button-edit background-transparent focus:outline-none"
         type="button"
         style="transition: all 0.15s ease"
         @click="editTag()"
@@ -77,5 +77,13 @@ export default Vue.extend({
 
 .tag-item:hover {
   border-left: solid 3px var(--tagcolor) !important;
+}
+
+.tag-item-button-edit {
+  @apply text-gray-400 font-bold px-3 py-1 text-sm outline-none mr-1 mb-1 float-right;
+}
+
+.tag-item-button-delete {
+  @apply text-gray-400 font-bold px-3 py-1 text-sm outline-none focus:outline-none mr-1 mb-1 float-right;
 }
 </style>

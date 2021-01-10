@@ -35,7 +35,7 @@
               :disabled="isLoading"
               class="modal-submit-button disabled:opacity-50 active:bg-green-600 hover:shadow-lg focus:outline-none"
               type="button"
-              @click="$emit('submit')"
+              @click="onSubmit()"
             >
               Editar
             </button>
@@ -81,6 +81,9 @@ export default Vue.extend({
     },
   },
   methods: {
+    onSubmit() {
+      this.$emit('submit');
+    },
     toggleModal() {
       this.$emit('togglemodal');
     },

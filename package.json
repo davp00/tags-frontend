@@ -10,6 +10,7 @@
     "lint:ext": "eslint --ext .ts,.js,.vue --ignore-path .gitignore .",
     "lint": "npm run lint:ext",
     "test": "jest",
+    "test:cov": "jest --coverage",
     "test:file": "jest util/binarysearch.spec.ts --watch --detectOpenHandles"
   },
   "dependencies": {
@@ -41,6 +42,7 @@
     "eslint-config-prettier": "^6.12.0",
     "eslint-plugin-nuxt": "^1.0.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "flush-promises": "^1.0.2",
     "jest": "^26.5.0",
     "postcss": "^7.0.35",
     "prettier": "^2.1.2",

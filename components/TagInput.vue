@@ -21,10 +21,10 @@ export default Vue.extend({
   },
   methods: {
     handleSubmit() {
-      if (this.tagName) {
+      if (this.tagName && !/^\s*$/.test(this.tagName)) {
         this.createTag(this.tagName);
-        this.tagName = '';
       }
+      this.tagName = '';
     },
     async createTag(name: string) {
       const { $apolloProvider } = this as any;
