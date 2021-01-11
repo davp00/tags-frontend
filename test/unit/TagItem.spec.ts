@@ -2,7 +2,6 @@ import { shallowMount } from '@vue/test-utils';
 import flushPromises from 'flush-promises';
 import { ActionTypes } from '~/definitions/index.store';
 import TagItem from '~/components/TagItem.vue';
-import { DELETE_TAG_MUTATION } from '~/gql/mutations';
 import { $apolloProvider, $store, testTag as tag } from '~/test/mocks';
 
 describe('TagItem', () => {

@@ -37,7 +37,6 @@ import Vue from 'vue';
 import { mapState } from 'vuex';
 import TagItem from '~/components/TagItem.vue';
 import { ActionTypes } from '~/definitions/index.store';
-import { UPDATE_TAG_LIST_SUBSCRIPTION } from '~/gql/subscriptions';
 import { TAG_LIST_QUERY, TAG_LIST_QUERY_LIMIT } from '~/gql/querys';
 import ModalEdit from '~/components/ModalEdit.vue';
 
