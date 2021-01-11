@@ -1,4 +1,16 @@
-# tags-frontend
+# Tags Frontend
+
+## Live Preview
+You can see the performance of the app in 
+[Live Preview](http://159.203.88.25:8000), 
+listing N elements without delays in the interface.
+
+## Environment
+```dotenv
+GRAPHQL_ENDPOINT=http://your-host/graphql
+GRAPHQL_WS_ENDPOINT=ws://your-host/graphql
+```
+
 
 ## Build Setup
 
@@ -13,8 +25,19 @@ $ npm run dev
 $ npm run build
 $ npm run start
 
-# generate static project
-$ npm run generate
+```
+## Test
+[Coverage Report](http://159.203.88.25:8082/)
+```bash
+# unit tests
+$ npm run test
+
+# test coverage
+$ npm run test:cov
 ```
 
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+## Stay in touch
+
+- Author - [Daniel Viloria](https://github.com/davp00)
+- LinkedIn - [https://www.linkedin.com/in/daniel-viloria-perez-17434016b/](https://www.linkedin.com/in/daniel-viloria-perez-17434016b/)
+
