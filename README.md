@@ -5,6 +5,8 @@ You can see the performance of the app in
 [Live Preview](http://159.203.88.25:8000), 
 listing around 500.000 items with no interface lag.
 
+<br/><br/>[Backend Code](https://github.com/davp00/tags-backend)
+
 ## Environment
 ```dotenv
 GRAPHQL_ENDPOINT=http://your-host/graphql
